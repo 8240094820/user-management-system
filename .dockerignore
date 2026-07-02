@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+.git
+.gitignore
+frontend-react/node_modules
+frontend-react/dist
+.env
+.vscode
+.idea

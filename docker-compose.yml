@@ -1,0 +1,64 @@
+services:
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: user-management-backend
+
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - .:/app
+
+    restart: always
+
+  postgres:
+    image: postgres:17
+
+    container_name: user-management-db
+
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: usermanagement
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend-react
+      dockerfile: Dockerfile
+
+    container_name: user-management-frontend
+
+    restart: always
+
+  nginx:
+    image: nginx:latest
+
+    container_name: user-management-nginx
+
+    ports:
+      - "80:80"
+
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./frontend-react/dist:/usr/share/nginx/html
+
+    depends_on:
+      - backend
+      - frontend
+
+    restart: always
+
+volumes:
+  postgres_data:

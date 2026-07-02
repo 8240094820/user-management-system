@@ -1,0 +1,7 @@
+python-dotenv
+Flask
+SQLAlchemy
+PyJWT
+Flask-Cors
+cryptography==42.0.5
+gunicorn
